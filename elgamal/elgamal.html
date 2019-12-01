@@ -29,7 +29,8 @@ a random integer such that 1 &lt; X<sub>A</sub> &lt; q - 1<br />
 <br />
 Y<sub>A</sub>&nbsp;=&nbsp;&alpha;<sup>X<sub>A</sub></sup>&nbsp;mod&nbsp;q&nbsp;=&nbsp;<INPUT id="Ya" class="public" type="number"><br />
 <br />
-<BUTTON type="button" onclick="Ya.value = ( alpha.value ** Xa.value ) % q.value;">Compute Y<sub>A</sub></BUTTON><br />
+<!--<BUTTON type="button" onclick="Ya.value = ( alpha.value ** Xa.value ) % q.value;">Compute Y<sub>A</sub></BUTTON><br />-->
+<BUTTON type="button" onclick="Ya.value = supermod( alpha.value, Xa.value, q.value, 0);">Compute Y<sub>A</sub></BUTTON><br />
 <br />
 <b>Step 4: Akila publishes her Public Key</b><br />
 <br />
@@ -60,20 +61,23 @@ k is an integer such that 1 &le; k &le; q - 1<br />
 <br />
 K&nbsp;=&nbsp;(Y<sub>A</sub>)<sup>k</sup>&nbsp;mod&nbsp;q&nbsp;=&nbsp;<INPUT id="K" class="private" type="number"><br />
 <br />
-<BUTTON type="button" onclick="K.value = ( Ya.value) ** k.value % q.value;">Compute K</BUTTON><br />
+<!--<BUTTON type="button" onclick="K.value = ( Ya.value) ** k.value % q.value;">Compute K</BUTTON><br />-->
+<BUTTON type="button" onclick="K.value = supermod( Ya.value, k.value, q.value, 0);">Compute K</BUTTON><br />
 <br />
 <b>Step 8: Beb encrypts M as the pair of integers (C<sub>1</sub>, C<sub>2</sub>)</b><br />
 <br />
 C<sub>1</sub>&nbsp;=&nbsp;&alpha;<sup>k</sup>&nbsp;mod&nbsp;q&nbsp;=&nbsp;<INPUT id="C1" class="public" type="number"><br />
 C<sub>2</sub>&nbsp;=&nbsp;KM&nbsp;mod&nbsp;q&nbsp;=&nbsp;<INPUT id="C2" class="public" type="number"><br />
 <br />
-<BUTTON type="button" onclick="C1.value = ( alpha.value) ** k.value % q.value; C2.value = ( K.value * M.value ) % q.value">Encrypt M</sub></BUTTON><br />
+<!--<BUTTON type="button" onclick="C1.value = ( alpha.value) ** k.value % q.value; C2.value = ( K.value * M.value ) % q.value">Encrypt M</sub></BUTTON><br />-->
+<BUTTON type="button" onclick="C1.value = supermod( alpha.value, k.value, q.value, 0); C2.value = ( K.value * M.value ) % q.value">Encrypt M</sub></BUTTON><br />
 <br />
 <b>Step 9: Akila recovers key K</b><br />
 <br />
 K&nbsp;=&nbsp;(C<sub>1</sub>)<sup>X<sub>A</sub></sup>&nbsp;mod&nbsp;q&nbsp;=&nbsp;<INPUT id="K9" class="private" type="number"><br />
 <br>
-<BUTTON type="button" onclick="K9.value = (C1.value ** Xa.value) % q.value">Recover K</sub></BUTTON><br />
+<!--<BUTTON type="button" onclick="K9.value = (C1.value ** Xa.value) % q.value">Recover K</sub></BUTTON><br />-->
+<BUTTON type="button" onclick="K9.value = supermod( C1.value, Xa.value, q.value, 0);">Recover K</sub></BUTTON><br />
 <br />
 <b>Step 10: Akila computes K<sup>-1</sup> in GF(q)</b><br />
 <br />
@@ -97,5 +101,23 @@ M&nbsp;=&nbsp;(C<sub>2</sub>K<sup>-1</sup>)&nbsp;mod&nbsp;q&nbsp;=&nbsp;<INPUT i
 <br />
 <BUTTON type="button" onclick="M10.value = ( C2.value * K1.value ) % q.value;">Compute M</BUTTON><br />
 <br />
+<script>
+function supermod( a, x, q, r) {
+	var rlimit=33;
+	var i=0;
+	var m=0;
+	var z=0;
+	if(x==0) return 1;
+	if(a==0) return 0;
+	z=a%q;
+	if(x == 1) return z;
+	if(x == 2) return (z*z)%q;
+	i=Math.floor(x/2);
+	if( r < rlimit ) m = supermod( a, i, q, r + 1);
+	m = (m * m)%q;
+	if( x > i * 2 ) m = (m * z)%q;
+	return m;
+}
+</script>
 </body>
 </html>
