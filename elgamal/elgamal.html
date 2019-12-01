@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+<b>Step 1: Akila chooses q and &alpha;</b><br />
+<br />
+q&nbsp;=&nbsp;<INPUT id="q" class="global" type="number"><br />
+q must be prime<br />
+<br />
+&alpha;&nbsp;=&nbsp;<INPUT id="alpha" class="global" type="number"><br />
+&alpha; must be a primitive root of q<br />
+<!-- Akila intelligent;Beb Osiris first born --> 
+<!--<br />
+<BUTTON type="button" onclick="check_primitive();">Check Primitive</BUTTON><br />
+<script>
+function check_primitive() {
+	alert("hi");
+}
+</script>-->
+<br />
+<b>Step 2: Akila generates X<sub>A</sub></b><br />
+<br />
+X<sub>A</sub>&nbsp;=&nbsp;<INPUT id="Xa" class="private" type="number"><br />
+a random integer such that 1 &lt; X<sub>A</sub> &lt; q - 1<br />
+<br />
+<BUTTON type="button" onclick="Xa.value = 2 + Math.floor( Math.random() * ( q.value - 2 ));">Generate X<sub>A</sub></BUTTON><br />
+<br />
+<b>Step 3: Akila computes Y<sub>A</sub></b><br />
+<br />
+Y<sub>A</sub>&nbsp;=&nbsp;&alpha;<sup>X<sub>A</sub></sup>&nbsp;mod&nbsp;q&nbsp;=&nbsp;<INPUT id="Ya" class="public" type="number"><br />
+<br />
+<BUTTON type="button" onclick="Ya.value = ( alpha.value ** Xa.value ) % q.value;">Compute Y<sub>A</sub></BUTTON><br />
+<br />
+<b>Step 4: Akila publishes her Public Key</b><br />
+<br />
+Akila's Private Key is X<sub>A</sub>&nbsp;=&nbsp;<span id="private4"></span><br />
+<br />
+Akila's Public Key is {q, &alpha;, Y<sub>A</sub>}&nbsp;=&nbsp;{<span id="public4"></span>}<br />
+<br />
+<BUTTON type="button" onclick="publish_public_key();">Publish Public Key</BUTTON><br />
+<script>
+function publish_public_key() {
+	private4.innerHTML = Xa.value; public4.innerHTML = q.value + ", " + alpha.value + ", " + Ya.value;
+}
+</script>
+<br />
+<b>Step 5: Beb chooses message M</b><br />
+<br />
+M&nbsp;=&nbsp;</b><INPUT id="M" class="private" type="number"><br />
+M is an integer in the range 0 &le; M &le; q -1<br />
+<br />
+<b>Step 6: Beb chooses a random integer k</b><br />
+<br />
+k&nbsp;=&nbsp;<INPUT id="k" class="private" type="number"><br />
+k is an integer such that 1 &le; k &le; q - 1<br />
+<br />
+<BUTTON type="button" onclick="k.value = 1 + Math.floor( Math.random() * ( q.value - 1 ));">Generate k</BUTTON><br />
+<br />
+<b>Step 7: Beb computes a one-time key K</b><br />
+<br />
+K&nbsp;=&nbsp;(Y<sub>A</sub>)<sup>k</sup>&nbsp;mod&nbsp;q&nbsp;=&nbsp;<INPUT id="K" class="private" type="number"><br />
+<br />
+<BUTTON type="button" onclick="K.value = ( Ya.value) ** k.value % q.value;">Compute K</BUTTON><br />
+<br />
+<b>Step 8: Beb encrypts M as the pair of integers (C<sub>1</sub>, C<sub>2</sub>)</b><br />
+<br />
+C<sub>1</sub>&nbsp;=&nbsp;&alpha;<sup>k</sup>&nbsp;mod&nbsp;q&nbsp;=&nbsp;<INPUT id="C1" class="public" type="number"><br />
+C<sub>2</sub>&nbsp;=&nbsp;KM&nbsp;mod&nbsp;q&nbsp;=&nbsp;<INPUT id="C2" class="public" type="number"><br />
+<br />
+<BUTTON type="button" onclick="C1.value = ( alpha.value) ** k.value % q.value; C2.value = ( K.value * M.value ) % q.value">Encrypt M</sub></BUTTON><br />
+<br />
+<b>Step 9: Akila recovers key K</b><br />
+<br />
+K&nbsp;=&nbsp;(C<sub>1</sub>)<sup>X<sub>A</sub></sup>&nbsp;mod&nbsp;q&nbsp;=&nbsp;<INPUT id="K9" class="private" type="number"><br />
+<br>
+<BUTTON type="button" onclick="K9.value = (C1.value ** Xa.value) % q.value">Recover K</sub></BUTTON><br />
+<br />
+<b>Step 10: Akila computes K<sup>-1</sup> in GF(q)</b><br />
+<br />
+K<sup>-1</sup>&nbsp;=&nbsp;<INPUT id="K1" class="private" type="number"><br />
+<br />
+<BUTTON type="button" onclick="compute_inverse();">Compute K<sup>-1</sup></BUTTON><br />
+<script>
+function compute_inverse() {
+	i=0;
+	while (i < q.value ) {
+		if ( (i * q.value + 1) % K9.value == 0 ) break;
+		i++;
+	}
+	if ( i < q.value ) K1.value = ( i * q.value + 1 ) / K9.value;
+}
+</script>
+<br />
+<b>Step 11: Akila computes M</b><br />
+<br />
+M&nbsp;=&nbsp;(C<sub>2</sub>K<sup>-1</sup>)&nbsp;mod&nbsp;q&nbsp;=&nbsp;<INPUT id="M10" class="private" type="number"><br />
+<br />
+<BUTTON type="button" onclick="M10.value = ( C2.value * K1.value ) % q.value;">Compute M</BUTTON><br />
+<br />
+</body>
+</html>
