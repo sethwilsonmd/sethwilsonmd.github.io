@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table, th, td, tr {border-collapse: collapse; border: 1px solid black;}
+</style>
+</head>
+<body>
+<b>Check Primitive</b><br />
+<br />
+q&nbsp;=&nbsp;<INPUT id="qq" class="global" type="number"><br />
+q must be prime<br />
+<br />
+&alpha;&nbsp;=&nbsp;<INPUT id="alpha" class="global" type="number"><br />
+&alpha; must be a primitive root of q<br />
+<br />
+<BUTTON type="button" onclick="list_values();">List Values</BUTTON><br />
+<br />
+<div id="tablelist"></div>
+<script>
+function list_values() {
+	a=alpha.value;
+	q=qq.value;
+	i=0;
+	limit=100;
+	s="<table><tr><td><b>i</b></td><td><b>&alpha;<sup>i</sup> mod q</b></td><td><b>(&alpha;<sup>i</sup> mod q)<sup>-1</sup> GF (q)</b></td></tr>";
+	t=document.getElementById("tablelist");
+	while (i <= q) {
+		m=a ** i % q;
+		j=0;
+		while (j < q) {
+			if ((j * q + 1) % m == 0 ) break;				
+			j++;
+		}
+		s = s + "<td>" + i + "</td><td>" + m + "</td><td>"; 
+		if (j < q ) s = s + j;
+		s = s + "</td></tr>";
+		i++;
+		if (i>limit) break;
+	}
+	s=s+"</table>";
+	t.innerHTML = s;
+}
+function supermod( a, x, q, r) {
+	if(x==0) return 1%q;
+	if(a==0) return 0;
+	i=x;
+	bits=0;
+	while (i>0) {
+		bits++;
+		i=i>>1;
+		}
+	if(bits==1) return a%q;
+	z=0;
+	
+	
+
+}
+
+</script>
+</body>
+</html>
