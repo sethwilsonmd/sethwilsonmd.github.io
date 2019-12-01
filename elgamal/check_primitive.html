@@ -2,34 +2,41 @@
 <html>
 <head>
 <style>
-table, th, td, tr {border-collapse: collapse; border: 1px solid black;}
+table, th, td, tr {border-collapse: collapse; border: 1px solid black; padding: 4px;}
+td { margin-left: 15px; margin-right: 15px;}
 </style>
 </head>
 <body>
 <b>Check Primitive</b><br />
 <br />
-q&nbsp;=&nbsp;<INPUT id="qq" class="global" type="number"><br />
+q&nbsp;=&nbsp;<INPUT id="q" class="global" type="number"><br />
 q must be prime<br />
 <br />
 &alpha;&nbsp;=&nbsp;<INPUT id="alpha" class="global" type="number"><br />
 &alpha; must be a primitive root of q<br />
 <br />
-<BUTTON type="button" onclick="list_values();">List Values</BUTTON><br />
+<BUTTON type="button" onclick="list_values(alpha.value, q.value);">List Values</BUTTON><br />
 <br />
+<div id="primitive_yes_or_no"></div>
 <div id="tablelist"></div>
 <script>
-function list_values() {
-	a=alpha.value;
-	q=qq.value;
-	i=0;
-	limit=100;
-	s="<table><tr><td><b>i</b></td><td><b>&alpha;<sup>i</sup> mod q</b></td><td><b>(&alpha;<sup>i</sup> mod q)<sup>-1</sup> GF (q)</b></td></tr>";
-	t=document.getElementById("tablelist");
-	while (i <= q) {
-		m=a ** i % q;
+function list_values(a, q) {
+	//var a=alpha.value;
+	//var q=q.value;
+	var i=1, j = 0;
+	var limit=1000;
+	var s="<table><tr><td><b>i</b></td><td><b>&alpha;<sup>i</sup> mod q</b></td><td><b>(&alpha;<sup>i</sup> mod q)<sup>-1</sup> GF (q)</b></td></tr>";
+	var t=document.getElementById("tablelist");
+	var m = 0;
+	var primitive_fail = false;
+	while (i < q) {
+		if(m==1) primitive_fail = true;
+		if(i==0) m = 1;
+		if(i==1) m = a;
+		if(i>1) m = (m * a) % q;
 		j=0;
 		while (j < q) {
-			if ((j * q + 1) % m == 0 ) break;				
+			if ((j * m - 1) % q == 0 ) break;				
 			j++;
 		}
 		s = s + "<td>" + i + "</td><td>" + m + "</td><td>"; 
@@ -40,21 +47,23 @@ function list_values() {
 	}
 	s=s+"</table>";
 	t.innerHTML = s;
+	primitive_yes_or_no.innerHTML = "Note: " + a + ( primitive_fail ? " is not " : " is " ) + "a primitive root of " + q + "<br /><br />"; 
 }
 function supermod( a, x, q, r) {
-	if(x==0) return 1%q;
+	var rlimit=33;
+	var i=0;
+	var m=0;
+	var z=0;
+	if(x==0) return 1;
 	if(a==0) return 0;
-	i=x;
-	bits=0;
-	while (i>0) {
-		bits++;
-		i=i>>1;
-		}
-	if(bits==1) return a%q;
-	z=0;
-	
-	
-
+	z=a%q;
+	if(x == 1) return z;
+	if(x == 2) return (z*z)%q;
+	i=Math.floor(x/2);
+	if( r < rlimit ) m = supermod( a, i, q, r + 1);
+	m = (m * m)%q;
+	if( x > i * 2 ) m = (m * z)%q;
+	return m;
 }
 
 </script>
