@@ -52,10 +52,21 @@ Message&nbsp;(M)&nbsp;=&nbsp;<INPUT id="M" class="public"><br />
 m&nbsp;=&nbsp;<INPUT id="m" class="private" type="number"><br />
 m is an integer in the range 0 &le; M &le; q -1<br />
 <br />
-<BUTTON type="button" onclick="calculate_hash();">Calculate Hash</BUTTON><br />
+<BUTTON type="button" onclick="m.value = calculate_hash(M.value);">Calculate Hash</BUTTON><br />
 <script>
-function calculate_hash() {
-	m.value = 14;
+function calculate_hash(s) {
+	var i = 0;
+	var h = 0, g = 0;
+	while (i < s.length) {
+		//s = M.value.substring(i,1);
+		h = h ^ (s.charCodeAt(i));
+		//g = (( h >> 4 ) & 0xF ) << 4;
+		//h = ( h ^ g ) & 0xFF;	
+		h = h & 0xFF;
+		i++;
+	}
+	return h;
+	//m.value = 14;
 }
 </script>
 <br />
@@ -117,7 +128,7 @@ Message&nbsp;(M)&nbsp;=&nbsp;<INPUT id="M11" class="public"><br />
 m&nbsp;=&nbsp;<INPUT id="m11" class="private" type="number"><br />
 m is an integer in the range 0 &le; M &le; q -1<br />
 <br />
-<BUTTON type="button" onclick="calculate_hash11();">Calculate Hash</BUTTON><br />
+<BUTTON type="button" onclick="m11.value = calculate_hash(M11.value);">Calculate Hash</BUTTON><br />
 <br />
 <script>
 function calculate_hash11() {
