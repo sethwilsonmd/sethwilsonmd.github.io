@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<HTML>
+<BODY>
+<H3>PLAYER&nbsp;<INPUT type="text"></H3>
+<H3>AUDITOR (Person on your right)&nbsp;<INPUT type="text"></H3>
+<H3>PROFESSION&nbsp;<INPUT type="text"></H3>
+<H1>INCOME STATEMENT</H1>
+<H2>INCOME</H2>
+<H3>Salary:&nbsp;<INPUT id="salary" type="text"></H3>
+<H3>Interest/Dividends:</H3>
+<P>Description Cash flow</P>
+<P><INPUT type="text">&nbsp;<INPUT id="passive_income_interest_1" class="passive_income" type="text"></P>
+<P><INPUT type="text">&nbsp;<INPUT id="passive_income_interest_2" class="passive_income" type="text"></P>
+<H3>Real Estate/Business:</H3>
+<P>Description Cash flow</P>
+<P><INPUT type="text">&nbsp;<INPUT id="passive_income_real_1" class="passive_income" type="text"><BR />
+<P><INPUT type="text">&nbsp;<INPUT id="passive_income_real_2" class="passive_income" type="text"><BR />
+<P><INPUT type="text">&nbsp;<INPUT id="passive_income_real_3" class="passive_income" type="text"><BR />
+<P><INPUT type="text">&nbsp;<INPUT id="passive_income_real_4" class="passive_income" type="text"><BR />
+<P><INPUT type="text">&nbsp;<INPUT id="passive_income_real_5" class="passive_income" type="text"><BR />
+<P><INPUT type="text">&nbsp;<INPUT id="passive_income_real_6" class="passive_income" type="text"><BR />
+<P><INPUT type="text">&nbsp;<INPUT id="passive_income_real_7" class="passive_income" type="text"></P>
+<P><INPUT type="text">&nbsp;<INPUT id="passive_income_real_8" class="passive_income" type="text"></P>
+<H2>Passive Income:&nbsp;<INPUT id="total_passive_income" type="text"> <BUTTON type="button" onclick="checktotal()">Recalculate</BUTTON></H2>
+<P>(Cash Flow from Interest/Dividends + Real Estate/Business)</P>
+<H2>Total Income:&nbsp;<INPUT id="total_income" type="text"> <BUTTON type="button" onclick="checktotal()">Recalculate</BUTTON></H2>
+<H2>EXPENSES</H2>
+<H3>Taxes:&nbsp;<INPUT id="expense_taxes" class="expense" type="text"></H3>
+<H3>Home Mortgage Payment:&nbsp;<INPUT id="expense_mortgage" class="expense" type="text"></H3>
+<H3>School Loan Payment:&nbsp;<INPUT id="expense_school" class="expense" type="text"></H3>
+<H3>Car Loan Payment:&nbsp;<INPUT id="expense_car" class="expense" type="text"></H3>
+<H3>Credit Card Payment:&nbsp;<INPUT id="expense_credit" class="expense" type="text"></H3>
+<H3>Retail Payment:&nbsp;<INPUT id="expense_retail" class="expense" type="text"></H3>
+<H3>Other Expenses:&nbsp;<INPUT id="expense_other" class="expense" type="text"></H3>
+<H3>Child Expenses:&nbsp;<INPUT id="expense_child" class="expense" type="text"></H3>
+<H3>Loan Payment:&nbsp;<INPUT id="expense_loan" class="expense" type="text"></H3>
+<H3>Number of Children:&nbsp;<INPUT id="number_of_children" type="text"></H3>
+<H3>Per Child Expense:&nbsp;<INPUT id="per_child_expense" type="text"></H3>
+<H2>Total Expenses:&nbsp;<INPUT id="total_expenses" type="text"> <BUTTON type="button" onclick="checktotal()">Recalculate</BUTTON></H2>
+<H2>Monthly Cash Flow (PAYCHECK):&nbsp;<INPUT id="cashflow" type="text"> <BUTTON type="button" onclick="checktotal()">Recalculate</BUTTON></H2>
+<P>(Total Income - Total Expenses)</P>
+<H1>BALANCE SHEET</H1>
+<H2>ASSETS</H2>
+<H3>Savings:&nbsp;<INPUT type="text"></H3>
+<H3>Stocks/Funds/CDs: # of Shares: Cost/Share:</H3>
+<INPUT type="text">&nbsp;<INPUT type="text">&nbsp;<INPUT type="text"><BR />
+<INPUT type="text">&nbsp;<INPUT type="text">&nbsp;<INPUT type="text"><BR />
+<INPUT type="text">&nbsp;<INPUT type="text">&nbsp;<INPUT type="text"><BR />
+<INPUT type="text">&nbsp;<INPUT type="text">&nbsp;<INPUT type="text"><BR />
+<H3>Real Estate/Business: Down Pay: Cost:</H3>
+<INPUT type="text">&nbsp;<INPUT type="text">&nbsp;<INPUT type="text"><BR />
+<INPUT type="text">&nbsp;<INPUT type="text">&nbsp;<INPUT type="text"><BR />
+<INPUT type="text">&nbsp;<INPUT type="text">&nbsp;<INPUT type="text"><BR />
+<INPUT type="text">&nbsp;<INPUT type="text">&nbsp;<INPUT type="text"><BR />
+<INPUT type="text">&nbsp;<INPUT type="text">&nbsp;<INPUT type="text"><BR />
+<INPUT type="text">&nbsp;<INPUT type="text">&nbsp;<INPUT type="text"><BR />
+<INPUT type="text">&nbsp;<INPUT type="text">&nbsp;<INPUT type="text"><BR />
+<H2>LIABILITIES</H2>
+<H3>Home Mortgage:&nbsp;<INPUT type="text"></H3>
+<H3>School Loans:&nbsp;<INPUT type="text"></H3>
+<H3>Car Loans:&nbsp;<INPUT type="text"></H3>
+<H3>Credit Cards:&nbsp;<INPUT type="text"></H3>
+<H3>Retail Debt:&nbsp;<INPUT type="text"></H3>
+<H3>Real Estate/Business: Mortgage/Liability:</H3>
+<INPUT type="text">&nbsp;<INPUT type="text"><BR />
+<INPUT type="text">&nbsp;<INPUT type="text"><BR />
+<INPUT type="text">&nbsp;<INPUT type="text"><BR />
+<INPUT type="text">&nbsp;<INPUT type="text"><BR />
+<INPUT type="text">&nbsp;<INPUT type="text"><BR />
+<INPUT type="text">&nbsp;<INPUT type="text"><BR />
+<INPUT type="text">&nbsp;<INPUT type="text"><BR />
+<H3>Loan:&nbsp;<INPUT type="text"></H3>
+<script>
+function calc_passive(){
+	var pi = document.querySelectorAll('.passive_income');
+	p = 0;
+	pi.forEach(function (x) {
+		q = Number("0" + x.value);
+		p = p + q;
+		})
+	document.getElementById("total_passive_income").value = p;
+	//return p;
+	}
+	
+function calc_child_expense () {
+	x = Number("0" + document.getElementById("number_of_children").value )
+	y = Number("0" + document.getElementById("per_child_expense").value )
+	document.getElementById("expense_child").value = x * y; 
+	}
+
+function calc_total_expenses(){
+	calc_child_expense();
+	var pi = document.querySelectorAll('.expense');
+	p = 0;
+	pi.forEach(function (x) {
+		q = Number("0" + x.value);
+		p = p + q;
+		})
+	document.getElementById("total_expenses").value = p;
+	//return p;
+	}
+	
+function calc_total_income() {
+	calc_passive();
+	x = Number("0" + document.getElementById("salary").value )
+	y = Number("0" + document.getElementById("total_passive_income").value )
+	document.getElementById("total_income").value = x + y; 
+	}
+
+function checktotal(){
+	calc_total_income();
+	calc_total_expenses();
+	x = Number("0" + document.getElementById("salary").value )
+	y = Number("0" + document.getElementById("total_passive_income").value )
+	z = Number("0" + document.getElementById("total_expenses").value )
+	document.getElementById("cashflow").value = x + y - z; 
+	}
+
+</script>
+</BODY>
+</HTML>
