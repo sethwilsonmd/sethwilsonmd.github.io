@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+<b>Step 1: Akila chooses q and &alpha;</b><br />
+<br />
+q&nbsp;=&nbsp;<INPUT id="q" class="global" type="number"><br />
+q must be prime<br />
+<br />
+&alpha;&nbsp;=&nbsp;<INPUT id="alpha" class="global" type="number"><br />
+&alpha; must be a primitive root of q<br />
+<!-- Akila intelligent;Beb Osiris first born --> 
+<!--<br />
+<BUTTON type="button" onclick="check_primitive();">Check Primitive</BUTTON><br />
+<script>
+function check_primitive() {
+	alert("hi");
+}
+</script>-->
+<br />
+<b>Step 2: Akila generates X<sub>A</sub></b><br />
+<br />
+X<sub>A</sub>&nbsp;=&nbsp;<INPUT id="Xa" class="private" type="number"><br />
+a random integer such that 1 &lt; X<sub>A</sub> &lt; q - 1<br />
+<br />
+<BUTTON type="button" onclick="Xa.value = 2 + Math.floor( Math.random() * ( q.value - 2 ));">Generate X<sub>A</sub></BUTTON><br />
+<br />
+<b>Step 3: Akila computes Y<sub>A</sub></b><br />
+<br />
+Y<sub>A</sub>&nbsp;=&nbsp;&alpha;<sup>X<sub>A</sub></sup>&nbsp;mod&nbsp;q&nbsp;=&nbsp;<INPUT id="Ya" class="public" type="number"><br />
+<br />
+<!--<BUTTON type="button" onclick="Ya.value = ( alpha.value ** Xa.value ) % q.value;">Compute Y<sub>A</sub></BUTTON><br />-->
+<BUTTON type="button" onclick="Ya.value = supermod( alpha.value, Xa.value, q.value, 0);">Compute Y<sub>A</sub></BUTTON><br />
+<br />
+<b>Step 4: Akila publishes her Public Key</b><br />
+<br />
+Akila's Private Key is X<sub>A</sub>&nbsp;=&nbsp;<span id="private4"></span><br />
+<br />
+Akila's Public Key is {q, &alpha;, Y<sub>A</sub>}&nbsp;=&nbsp;{<span id="public4"></span>}<br />
+<br />
+<BUTTON type="button" onclick="publish_public_key();">Publish Public Key</BUTTON><br />
+<script>
+function publish_public_key() {
+	private4.innerHTML = Xa.value; public4.innerHTML = q.value + ", " + alpha.value + ", " + Ya.value;
+}
+</script>
+<br />
+<b>Step 5: Akila calculates hash m of message M</b><br />
+<br />
+Message&nbsp;(M)&nbsp;=&nbsp;<INPUT id="M" class="public"><br />
+<br />
+m&nbsp;=&nbsp;<INPUT id="m" class="private" type="number"><br />
+m is an integer in the range 0 &le; M &le; q -1<br />
+<br />
+<BUTTON type="button" onclick="calculate_hash();">Calculate Hash</BUTTON><br />
+<script>
+function calculate_hash() {
+	m.value = 14;
+}
+</script>
+<br />
+<b>Step 6: Akila chooses a random integer K</b><br />
+<br />
+K&nbsp;=&nbsp;<INPUT id="K" class="private" type="number"><br />
+K is an integer such that 1&nbsp;&le;&nbsp;K&nbsp;&le;&nbsp;q&nbsp;-&nbsp;1 and gcd(&nbsp;K,&nbsp;q-1&nbsp;)&nbsp;=&nbsp;1<br />
+<br />
+<b>Step 7: Akila computes S<sub>1</sub></b><br />
+<br />
+S<sub>1</sub>&nbsp;=&nbsp;&alpha;<sup>K</sup>&nbsp;mod&nbsp;q&nbsp;=&nbsp;<INPUT id="S1" class="public" type="number"><br />
+<br />
+<BUTTON type="button" onclick="S1.value = supermod( alpha.value, K.value, q.value, 0);">Compute S<sub>1</sub></BUTTON><br />
+<br />
+<b>Step 8: Akila computes K<sup>-1</sup> in GF(q - 1)</b><br />
+<br />
+K<sup>-1</sup>&nbsp;=&nbsp;<INPUT id="K1" class="private" type="number"><br />
+<br />
+<BUTTON type="button" onclick="compute_inverse();">Compute K<sup>-1</sup></BUTTON><br />
+<script>
+function compute_inverse() {
+	var i=0;
+	var q1=q.value - 1; 
+	while (i < q1 ) {
+		if ( (i * q1 + 1) % K.value == 0 ) break;
+		i++;
+	}
+	if ( i < q1 ) K1.value = ( i * q1 + 1 ) / K.value;
+}
+</script>
+<br />
+<b>Step 9: Akila computes S<sub>2</sub></b><br />
+<br />
+S<sub>2</sub>&nbsp;=&nbsp;K<sup>-1</sup>(m&nbsp;-&nbsp;X<sub>A</sub>S<sub>1</sub>)&nbsp;mod&nbsp;(q&nbsp;-&nbsp;1)&nbsp;=&nbsp;<INPUT id="S2" class="public" type="number"><br />
+<br />
+<BUTTON type="button" onclick="S2.value = (( K1.value * (m.value - Xa.value * S1.value) % ( q.value - 1) ) + (q.value - 1) ) % (q.value - 1);">Compute S<sub>2</sub></BUTTON><br />
+<br />
+<b>Step 10: Akila publishes her message with signature (S<sub>1</sub>, S<sub>2</sub>)</b><br />
+<br />
+Akila's Public Key is {q, &alpha;, Y<sub>A</sub>}&nbsp;=&nbsp;{<span id="public10"></span>}<br />
+<br />
+Akila's Signature is {S<sub>1</sub>, S<sub>2</sub>)&nbsp;=&nbsp;{<span id="signature10"></span>}<br />
+<br />
+Message (M) = "<span id="M10"></span>"<br />
+<br />
+<BUTTON type="button" onclick="publish_signature();">Publish Signature</BUTTON><br />
+<script>
+function publish_signature() {
+	public10.innerHTML = q.value + ", " + alpha.value + ", " + Ya.value; 
+	signature10.innerHTML = S1.value + ", " + S2.value;
+	M10.innerHTML = M.value;
+}
+</script>
+<br />
+<b>Step 11: Beb calculates hash m of message M</b><br />
+<br />
+Message&nbsp;(M)&nbsp;=&nbsp;<INPUT id="M11" class="public"><br />
+<br />
+m&nbsp;=&nbsp;<INPUT id="m11" class="private" type="number"><br />
+m is an integer in the range 0 &le; M &le; q -1<br />
+<br />
+<BUTTON type="button" onclick="calculate_hash11();">Calculate Hash</BUTTON><br />
+<br />
+<script>
+function calculate_hash11() {
+	m11.value = 14;
+}
+</script>
+<b>Step 12: Beb computes V<sub>1</sub> and V<sub>2</sub></b><br />
+<br />
+V<sub>1</sub>&nbsp;=&nbsp;&alpha;<sup>m</sup>&nbsp;mod&nbsp;q&nbsp;=&nbsp;<INPUT id="V1" class="public" type="number"><br />
+<br />
+V<sub>2</sub>&nbsp;=&nbsp;(Y<sub>A</sub>)<sup>S<sub>1</sub></sup>(S<sub>1</sub>)<sup>S<sub>2</sub></sup>&nbsp;mod&nbsp;q&nbsp;=&nbsp;<INPUT id="V2" class="public" type="number"><br />
+<br />
+<BUTTON type="button" onclick="compute_v1v2();">Compute V<sub>1</sub> and V<sub>2</sub></BUTTON><br />
+<br />
+<script>
+function compute_v1v2 () {
+	V1.value = supermod( alpha.value, m11.value, q.value, 0 );
+	var a = supermod( Ya.value, S1.value, q.value, 0);
+	var b = supermod( S1.value, S2.value, q.value, 0);
+	V2.value = ( a * b ) % q.value; 
+}
+</script>
+<b>Step 13: If V<sub>1</sub> = V<sub>2</sub>, the signature is valid.<br />
+<br />
+<script>
+function supermod( a, x, q, r) {
+	var rlimit=33;
+	var i=0;
+	var m=0;
+	var z=0;
+	if(x==0) return 1;
+	if(a==0) return 0;
+	z=a%q;
+	if(x == 1) return z;
+	if(x == 2) return (z*z)%q;
+	i=Math.floor(x/2);
+	if( r < rlimit ) m = supermod( a, i, q, r + 1);
+	m = (m * m)%q;
+	if( x > i * 2 ) m = (m * z)%q;
+	return m;
+}
+</script>
+</body>
+</html>
