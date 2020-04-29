@@ -1,0 +1,99 @@
+<html>
+<head>
+<!-- 
+FEAL.html
+Seth Wilson 
+CYBR 537 Applied Encryption and Cryptography
+May 1, 2020
+-->
+<meta charset="utf-8">
+<title>FEAL Algorithm</title>
+<script src="FEAL.js"></script>
+</head>
+<body style="width: 700px;">
+<h1>FEAL Algorithm<br /></h1>
+<div id="intro" >
+The Fast Data Encipherment Algorithm (FEAL) was proposed by Akihiro Shimizu and Shoji Miyaguchi in 1988 
+as an alternative to the DES algorithm.[1] Their purpose was to create a fast symmetric encryption 
+algorithm that did not use a lookup table and could be implemented in both hardware and software. 
+FEAL is a block cipher that uses a 64-bit secret key (<b>k</b>) to create a 256-bit extended key 
+made up of 16 16-bit subkeys (<b>K0 to K15</b>). 
+This extended key is then used to transform a 64-bit plaintext message (<b>m</b>) 
+into a 64-bit ciphertext message (<b>c</b>). The algorithm as originally presented featured four rounds of a 
+"data randomization" function. When cryptanalysis revealed weaknesses in that design, an 
+additional four rounds of data randomization were added. 
+The eight round version (FEAL Version 2.00, FEAL-8) is implemented here.<br>
+<br>
+</div>
+<div id="generate_extended_key">
+<h2>Generate Extended Key</h2>
+Enter 16 hexidecimal digits below to be used as the key and then click the 
+<b>Generate Extended Key</b> button. To observe the effect of parity bits on the extended 
+key, check the "use parity bits" checkbox.<br>
+<br>
+<label for="key_hex"><b>k = </b></label>
+<input id="key_hex" type="text" maxlength="16" value="0123456789ABCDEF"><br>
+<br>
+<button id="button_generate_extended_key" type="button" onclick="generate_extended_key()">Generate Extended Key</button>
+ <input id="checkbox_parity" type="checkbox">use parity bits<br>
+<br>
+<!--<label for="extended_key_hex"><b>x = </b></label>
+<input id="extended_key_hex" type="text" maxlength="64" size="72"
+defaultvalue="0000000000000000000000000000000000000000000000000000000000000000"
+value="0000000000000000000000000000000000000000000000000000000000000000"><br>-->
+<b>Extended Key (KO to K15) = </b><div id="div_extended_key"></div>
+<br>
+</div>
+<div id="encrypt_block">
+<h2>Encrypt 64-bit Block Using FEAL Version 2.00</h2>
+Enter 16 hexidecimal digits below to be used as the message and then press the <b>Encrypt Block</b> button 
+to encrypt the message with the extended key. <br>
+<br>
+<label for="hex_message"><b>m = </b></label>
+<input id="hex_message" type="text" maxlength="16" defaultvalue="0123456789ABCDEF" value="0123456789ABCDEF"><br>
+<br>
+<button id="button_encrypt_block" type="button" onclick="encrypt_block()">Encrypt Block</button><br>
+<br>
+<b>Ciphertext Output: </b>
+<div id="div_ciphertext_output"></div>
+<br>
+<div id="decrypt_block">
+<h2>Decrypt 64-bit Block Using FEAL Version 2.00</h2>
+Enter 16 hexidecimal digits below to be used as the ciphtertext or 
+click the <b>Copy</b> button to use the ciphertext output above and then press 
+the <b>Decrypt Block</b> button 
+to decrypt the message with the extended key.<br>
+<br>
+<label for="hex_ciphertext"><b>c = </b></label>
+<input id="hex_ciphertext" type="text" maxlength="16" value="0123456789ABCDEF">
+<button id="button_copy_ciphertext" type="button" onclick="copy_ciphertext_click()">Copy</button><br>
+<br>
+<button id="button_decrypt_block" type="button" onclick="decrypt_block()">Decrypt Block</button><br>
+<br>
+<b>Plaintext Message Output: </b>
+<div id="div_plaintext_output"></div>
+<br>
+<div id="speed_test">
+<h2>Speed Test</h2>
+In their paper, Akihiro Shimizu and Shoji Miyaguchi stated: 
+"When FEAL is implemented in assembly language on an i-8086 16-bit 
+microprocessor with 8 MHz frequency, it is confirmed that the program 
+size is 400 bytes and the excution time speed reaches 120 kbps." Click 
+the <b>Speed Test</b> button to see how your computer compares to this original 
+benchmark.<br>
+<br>
+<button id="speed_test" type="button" onclick="speed_test()">Speed Test</button><br>
+<br>
+<div id="div_speed_test_result"></div>
+<br>
+</div>
+<div id="footer">
+<br>
+[1] Shimizu-Miyaguchi1988_Chapter_FastDataEnciphermentAlgorithmF.pdf<br>
+https://link.springer.com/chapter/10.1007/3-540-39118-5_24<br>
+[2] feal_nx_specifications_call-3e.pdf<br>
+https://info.isl.ntt.co.jp/crypt/archive/dl/feal/call-3e.pdf<br>
+</div>
+</body>
+</html>
+
