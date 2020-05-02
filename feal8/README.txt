@@ -1,0 +1,1 @@
+To use this program, simply extract the .html file and .js file to a directory and open the .html file with a web browser. 

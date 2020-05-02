@@ -3,6 +3,26 @@
 // CYBR 537 Applied Encryption and Cryptography
 // May 1, 2020
 
+// This program implements the Fast Data Encipherment Algorithm (FEAL)
+// proposed by Akihiro Shimizu and Shoji Miyaguchi in their 1988 paper. 
+//
+// The key processing method transforms the user-supplied 64-bit key  
+// into a set of 16 16-bit keys for use in the encipherment and 
+// decipherment algorithms.
+//
+// The enciphering method encrypts a 64-bit user-supplied plaintext
+// into ciphertext using the extended key created by the key processing
+// method. 
+//
+// The deciphering method decrypts a 64-bit user-supplied ciphertext
+// into a 64-bit plaintext using the extended key. 
+//
+// The speed test method allows a user to compare his or her processing 
+// power to the power cited in the original paper. 
+//
+// The function names f, fK, and S were the ones originally used by 
+// Akihiro Shimizu and Shoji Miyaguchi in their paper.
+
 var key = [];	//user-defined 64-bit key
 var xkey = [];	//calculated extended key
 var mtext = [];	//64-bit plaintext message
@@ -433,7 +453,7 @@ function speed_test() {
 	endtime = (new Date()).getTime();
 	
 	n=Math.floor( n * 3 * 64 / ( endtime - starttime ))
-	var s = "Speed Test Result 2: " + n.toString() + " kbps <br>";
+	var s = "Speed Test Result: " + n.toString() + " kbps <br>";
 	document.getElementById("div_speed_test_result").innerHTML = s;
 	
 	encrypt_block();
