@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.puzzle{
+border: 3px solid white; min-height:40px; min-width: 40px; padding:0px; font-size: 32px; background: white; color: black;
+}
+.numbers {
+border: 3px solid black; height:40px; width:40px; padding:0px; font-size: 32px; background: white; color: black; text-align:center;
+}
+table{
+  border: 1px solid black;
+  border-spacing: 0px;
+  padding: 0px;
+}
+th,td{  border: 1px solid black;
+border-spacing: 0px;
+padding: 0px;
+text-align: center;
+min-width: 40px;
+min-height: 40px;}
+</style>
+
+</head>
+<body style="width:400px; background: brown" onselectstart="return false">
+
+<table id="puzzle_body" style="background: white;">
+<tbody>
+<tr>
+<td style="padding:0px">
+<table>
+<tbody>
+<tr>
+<td><div class="puzzle" ></div></td>
+<td><div class="puzzle" ></div></td>
+<td><div class="puzzle" ></div></td>
+</tr>
+<tr>
+<td><div class="puzzle" ></div></td>
+<td><div class="puzzle" ></div></td>
+<td><div class="puzzle" ></div></td>
+</tr>
+</tbody>
+</table>
+</td>
+<td style="padding:0px">
+<table>
+<tbody>
+<tr>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+</tr>
+<tr>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+
+<tr>
+<td style="padding:0px">
+<table>
+<tbody>
+<tr>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+</tr>
+<tr>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+</tr>
+</tbody>
+</table>
+</td>
+<td style="padding:0px">
+<table>
+<tbody>
+<tr>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+</tr>
+<tr>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+</tr></tbody>
+</table>
+</td>
+</tr>
+
+<tr>
+<td style="padding:0px">
+<table>
+<tbody>
+<tr>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+</tr>
+<tr>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+</tr>
+</tbody>
+</table>
+</td>
+<td style="padding:0px">
+<table>
+<tbody>
+<tr>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+</tr>
+<tr>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+<td><div class="puzzle" ></div></div></td>
+</tr></tbody>
+</table>
+</td>
+</tr>
+
+</tbody>
+</table>
+<br>
+
+<table id="numbers_body" style="border: none;border-spacing: 4px; padding: 0px; ">
+<tbody>
+<tr>
+<td><div class="numbers">1</div></td>
+<td><div class="numbers">2</div></td>
+<td><div class="numbers">3</div></td>
+<td><div class="numbers">4</div></td>
+<td><div class="numbers">5</div></td>
+<td><div class="numbers">6</div></td>
+<td><div class="numbers"></div></td>
+</tr>
+</tbody>
+</table>
+<script>
+var selection_element;
+
+function puzzle_click( e ) {
+e_color = e.style.borderColor;
+reset_border_colors( puzzle_body );
+if( e_color == "black" ) { e.style.borderColor = "white"; selection_element = null}
+    else {e.style.borderColor = "black"; selection_element = e; }
+}
+function number_click( e ) {
+//e_color = e.style.borderColor;
+//reset_border_colors( numbers_body );
+//if( e_color == "black" ) { e.style.borderColor = "white";}
+    //else {e.style.borderColor = "black";}
+if( selection_element != null ) { selection_element.innerHTML = e.innerHTML; }
+}
+function reset_border_colors ( e ) {
+for( const i of e.querySelectorAll( ".puzzle" ))
+    {i.style.borderColor = "white";}
+for( const i of e.querySelectorAll( ".numbers" ))
+    {i.style.borderColor = "white";}
+}
+
+function add_puzzle_body_ids ( e ) {
+let k = 0;
+for( const i of document.querySelectorAll( ".puzzle" )) {
+    i.id="puzzle_index_" + k++;
+}
+}
+
+function add_event_listeners () {
+for( const i of document.querySelectorAll( ".puzzle" ))
+    {i.addEventListener("click", (event) => { puzzle_click( event.target );});}
+for( const i of document.querySelectorAll( ".numbers" ))
+    {i.addEventListener("click", (event) => { number_click( event.target );});}
+}
+
+reset_border_colors( puzzle_body );
+add_puzzle_body_ids( puzzle_body );
+add_event_listeners ();
+
+</script>
+
+</body>
+</html> 
